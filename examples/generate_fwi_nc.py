@@ -5,7 +5,6 @@
 # directories and file names
 ######################################
 
-utils_dir = '../utils/'
 data_dir = '../data/'
 wrfout_dir = data_dir + 'wrfout_files/'
 output_dir = '../output/'
@@ -18,9 +17,10 @@ fname_out = 'fwi_test.nc'
 ######################################
 
 import sys, os
-sys.path.append(utils_dir) # importing functions from ../utils/
+sys.path.append('../utils/') # allowing custom module imports from the utils folder
 from fwi_functions import *
 from custom_functions import *
+import fwi_functions
 import numpy as np
 import netCDF4 as nc
 import xarray as xr
@@ -29,89 +29,41 @@ import xarray as xr
 # extract and pre-process wrfout data
 ######################################
 
-ds_nc = nc.Dataset(wrfout_dir+fname) # use only for time variable processing
-nctime = ds_nc['XTIME']
-time_input = np.array(nctime)
-t_units = nctime.units
-t_cal = nctime.calendar
-t = nc.num2date(nctime,units=t_units,calendar=t_cal)
-str_time = [i.strftime("%Y-%m-%d %H:%M") for i in t]
-Nt = len(time_input)
+# open dataset with xarray
+ds = xr.open_dataset(wrfout_dir+fname, decode_times=False).chunk({'XTIME':6})
 
-ds = xr.open_dataset(wrfout_dir+fname).chunk({'XTIME':6})
+# extract latitude and longitude
 lat = np.array(ds['XLAT'])
 lon = np.array(ds['XLONG'])
 Nx = lat.shape[0]
 Ny = lat.shape[1]
 
-# get FWI indices
+# process time
+time_input = np.array(ds['XTIME'])
+t_units = ds['XTIME'].units
+t_cal = ds['XTIME'].calendar
+t = nc.num2date(time_input,units=t_units,calendar=t_cal)
+
+# get FWI time indices
 i_fwi, time_fwi = fwi_idx(t)
 Nt_fwi = len(i_fwi)
 
 # extract vars
 climate_vars = extract_climate_vars(ds, t, i_fwi=i_fwi)
-t2, rh, wind, rain = [np.array(climate_vars['t2_fwi']),
-                      np.array(climate_vars['rh_fwi']),
-                      np.array(climate_vars['wind_fwi']),
-                      np.array(climate_vars['rain_fwi'])]
 
 ds.close()
-ds_nc.close()
 
 ######################################
 # compute FWI
 ######################################
 
-
-
 ffmc_0, dmc_0, dc_0 = [85, 6, 15]
-[ffmc, dmc, dc, isi, bui, fwi] = [np.zeros((Nt_fwi,Nx,Ny)),
-                                  np.zeros((Nt_fwi,Nx,Ny)),
-                                  np.zeros((Nt_fwi,Nx,Ny)),
-                                  np.zeros((Nt_fwi,Nx,Ny)),
-                                  np.zeros((Nt_fwi,Nx,Ny)),
-                                  np.zeros((Nt_fwi,Nx,Ny))]
 
-y_prev = t[0].year 
-for i, idx in enumerate(i_fwi):
-    mm = t[idx].month
-    y = t[idx].year
-    if i == 0 or y!=y_prev:
-        y_prev = t[idx].year   
-        dc_prev = dc_0 * np.ones((Nx,Ny))
-        dmc_prev = dmc_0 * np.ones((Nx,Ny))
-        ffmc_prev = ffmc_0 * np.ones((Nx,Ny))
-        dc[i,:,:] = dc_prev
-        dmc[i,:,:] = dmc_prev
-        ffmc[i,:,:] = ffmc_prev
-    else:
-        ffmc[i,:,:] = FFMC(t2[i,:,:],
-                       rh[i,:,:],
-                       wind[i,:,:],
-                       rain[i,:,:],
-                       ffmc_prev)
-        dmc[i,:,:] = DMC(t2[i,:,:],
-                         rh[i,:,:],
-                         rain[i,:,:],
-                         dmc_prev,
-                         lat,
-                         mm)
-        dc[i,:,:] = DC(t2[i,:,:],
-                       rain[i,:,:],
-                       dc_prev,
-                       lat,
-                       mm)         
-        ffmc_prev = ffmc[i,:,:]
-        dmc_prev = dmc[i,:,:]
-        dc_prev = dc[i,:,:]
-    isi[i,:,:] = ISI(wind[i,:,:],
-                     ffmc[i,:,:])
-    bui[i,:,:] = BUI(dmc[i,:,:],
-                    dc[i,:,:])
-    fwi[i,:,:] = FWI(isi[i,:,:],
-                    bui[i,:,:])
-
-ds.close()
+fwi, bui, isi, dc, dmc, ffmc = compute_fwi(t, i_fwi, Nx,
+                                           Ny, lat, 
+                                           climate_vars, 
+                                           ffmc_0, dmc_0, 
+                                           dc_0, fwi_functions)
 
 ######################################
 # write to netCDF
