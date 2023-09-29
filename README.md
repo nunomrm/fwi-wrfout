@@ -35,9 +35,23 @@ generate_fwi_nc.py
 Usage:
 1. Go to ```examples/```
 2. Run ```python generate_fwi_nc.py```
-Input: 
-Output:
-Description:
+
+Input: ```data/wrfout_files/wrfout_test.nc```
+Output: ```output/nc_files/fwi_test.nc```
+Description: Computes and generates a NetCDF FWI file with the same time, lon, lat format as the wrfout. Uses an ```xarray``` dataset to open the wrfout and extract its climate/weather information. For very large wrfouts (e.g. >8GB), using ```xarray.open_dataset``` for data extraction made the runtime decrease dramatically, due to parallelization routines with ```dask``` (```xarray``` dependency), compared to using ```netCDF4.Dataset```. Functions in ```custom_functions``` contain all required tools for the computation of FWI. Emphasys is given to ```compute_fwi```, which calls ```fwi_functions``` (from the pyfwi project, mentioned above) and makes calculation of FWI with numpy arrays. Lastly, a NetCDF4 file is created, storing FWI and its' sub-indices.
+
+```
+plots_fwi.py
+```
+Usage:
+1. Go to ```examples/```
+2. Run ```python generate_fwi_nc.py```
+
+Description: Makes (and saves in ```.PNG``` format) three simple plots with Matplotlib and Cartopy that can be seen below.
+
+```
+
+```
 
 
 

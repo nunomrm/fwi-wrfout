@@ -8,8 +8,10 @@ data_dir = '../output/' # in this case data is the computed fwi .nc file
 fwi_dir = data_dir + 'nc_files/'
 output_dir = '../output/plots/'
 fname = 'fwi_test.nc'
-plot_name1 = 'fwi_mean.png'
-plot_name2 = 'ndays_extreme.png'
+plot_name1 = 'fwi_mean_nomask.png'
+plot_name2 = 'fwi_mean.png'
+plot_name3 = 'ndays_veryhigh.png'
+plot_name4 = 'ndays_extreme.png'
 
 ######################################
 # import required python modules
@@ -50,8 +52,9 @@ fwi = np.array(ds['FWI'])
 ######################################
 
 shapefile = gpd.read_file('../data/extras/distritos.shp')
-# "Interior Norte e Centro" region's districts (for masking in the shapefile)
-region = ['Bragança','Vila Real','Guarda','Viseu','Castelo Branco']
+# Three districts comprising part of the "Interior Norte" region of the
+# country are selected
+region = ['Bragança','Vila Real','Guarda']
 mask = np.zeros((Nx, Ny))
 for i_s, name in enumerate(shapefile.NAME_1):
     if name in region:
@@ -68,6 +71,7 @@ for i_s, name in enumerate(shapefile.NAME_1):
 
 fwi_mean = np.nanmean(fwi,axis=0)
 fwi_mean[mask==False] = np.nan
+fwi_mean_nomask = np.nanmean(fwi,axis=0)
 
 where_fwi_threshold = np.zeros((len(fwi_lims),Nt,Nx,Ny)) 
 for i in range(2): # goes through very high and extreme FWI thresholds
@@ -83,6 +87,7 @@ for i in range(2):
 
 fwi_fields = {} # dictionary which stores arrays of the calculations on FWI
 fwi_fields['fwi_mean'] = fwi_mean
+fwi_fields['fwi_mean_nomask'] = fwi_mean_nomask
 fwi_fields['ndays_veryhigh'] = fwi_threshold_ndays[0,:,:]
 fwi_fields['ndays_extreme'] = fwi_threshold_ndays[1,:,:]
 
@@ -91,10 +96,20 @@ fwi_fields['ndays_extreme'] = fwi_threshold_ndays[1,:,:]
 ######################################
 
 my_proj = ccrs.PlateCarree() # map projection
+
+label_name = 'FWI (mean)'
+var = 'fwi_mean_nomask'
+fig_p = output_dir+plot_name1
+cb_lims, delta_c = [[15, 40], 5] # colorbar limits and delta
+fig, ax = make_map(my_proj, fnt_size=22, fig_size=[10, 14])
+plot_fwi_vars(fig=fig, ax=ax, fig_path=fig_p, domain_lims=d_lims, var=var,
+               var_dict=fwi_fields, lon=lon, lat=lat, top_label=label_name,
+               colorbar_lims=cb_lims, colorbar_delta=delta_c)
+
 label_name = 'FWI (mean)'
 var = 'fwi_mean'
 fig_p = output_dir+plot_name2
-cb_lims, delta_c = [[15, 40], 5] # colorbar limits and its' delta
+cb_lims, delta_c = [[15, 40], 5]
 fig, ax = make_map(my_proj, fnt_size=22, fig_size=[10, 14])
 plot_fwi_vars(fig=fig, ax=ax, fig_path=fig_p, domain_lims=d_lims, var=var,
                var_dict=fwi_fields, lon=lon, lat=lat, top_label=label_name,
@@ -103,7 +118,7 @@ plot_fwi_vars(fig=fig, ax=ax, fig_path=fig_p, domain_lims=d_lims, var=var,
 label_name = 'FWI ≥ 38'
 danger_lvl = 'veryhigh'
 var = 'ndays_'+danger_lvl
-fig_p = output_dir+plot_name2
+fig_p = output_dir+plot_name3
 cb_lims, delta_c = [[0, 20], 4]
 fig, ax = make_map(my_proj, fnt_size=22, fig_size=[10, 14])
 plot_fwi_vars(fig=fig, ax=ax, fig_path=fig_p, domain_lims=d_lims, var=var,
@@ -113,7 +128,7 @@ plot_fwi_vars(fig=fig, ax=ax, fig_path=fig_p, domain_lims=d_lims, var=var,
 label_name = 'FWI ≥ 50'
 danger_lvl = 'extreme'
 var = 'ndays_'+danger_lvl
-fig_p = output_dir+plot_name2
+fig_p = output_dir+plot_name4
 cb_lims, delta_c = [[0, 10], 2]
 fig, ax = make_map(my_proj, fnt_size=22, fig_size=[10, 14])
 plot_fwi_vars(fig=fig, ax=ax, fig_path=fig_p, domain_lims=d_lims, var=var,
