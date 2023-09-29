@@ -55,11 +55,11 @@ Description: Creates three simple map plots with Matplotlib and Cartopy. Applies
 fwi_mean_nomask.png
 ```
 Map of the FWI mean without masking.
-<img src="https://github.com/nunomrm/fwi-wrfout/blob/main/output/plots/fwi_mean_nomask.png">
+<img src="https://github.com/nunomrm/fwi-wrfout/blob/main/output/plots/fwi_mean_nomask.png" width="200"/>
 
 ```
 fwi_mean.png
 ```
 Map of the FWI mean with masking.
-<img src="https://github.com/nunomrm/fwi-wrfout/blob/main/output/plots/fwi_mean.png">
+<img src="https://github.com/nunomrm/fwi-wrfout/blob/main/output/plots/fwi_mean.png" width="200"/>
 

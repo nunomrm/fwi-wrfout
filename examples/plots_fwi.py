@@ -101,7 +101,7 @@ label_name = 'FWI (mean)'
 var = 'fwi_mean_nomask'
 fig_p = output_dir+plot_name1
 cb_lims, delta_c = [[15, 40], 5] # colorbar limits and delta
-fig, ax = make_map(my_proj, fnt_size=22, fig_size=[10, 13])
+fig, ax = make_map(my_proj, fnt_size=22, fig_size=[10, 12])
 plot_fwi_vars(fig=fig, ax=ax, fig_path=fig_p, domain_lims=d_lims, var=var,
                var_dict=fwi_fields, lon=lon, lat=lat, top_label=label_name,
                colorbar_lims=cb_lims, colorbar_delta=delta_c)
@@ -110,7 +110,7 @@ label_name = 'FWI (mean)'
 var = 'fwi_mean'
 fig_p = output_dir+plot_name2
 cb_lims, delta_c = [[15, 40], 5]
-fig, ax = make_map(my_proj, fnt_size=22, fig_size=[10, 13])
+fig, ax = make_map(my_proj, fnt_size=22, fig_size=[10, 12])
 plot_fwi_vars(fig=fig, ax=ax, fig_path=fig_p, domain_lims=d_lims, var=var,
                var_dict=fwi_fields, lon=lon, lat=lat, top_label=label_name,
                colorbar_lims=cb_lims, colorbar_delta=delta_c)
@@ -120,7 +120,7 @@ danger_lvl = 'veryhigh'
 var = 'ndays_'+danger_lvl
 fig_p = output_dir+plot_name3
 cb_lims, delta_c = [[0, 20], 4]
-fig, ax = make_map(my_proj, fnt_size=22, fig_size=[10, 13])
+fig, ax = make_map(my_proj, fnt_size=22, fig_size=[10, 12])
 plot_fwi_vars(fig=fig, ax=ax, fig_path=fig_p, domain_lims=d_lims, var=var,
                var_dict=fwi_fields, lon=lon, lat=lat, top_label=label_name,
                colorbar_lims=cb_lims, colorbar_delta=delta_c)
@@ -130,7 +130,7 @@ danger_lvl = 'extreme'
 var = 'ndays_'+danger_lvl
 fig_p = output_dir+plot_name4
 cb_lims, delta_c = [[0, 10], 2]
-fig, ax = make_map(my_proj, fnt_size=22, fig_size=[10, 13])
+fig, ax = make_map(my_proj, fnt_size=22, fig_size=[10, 12])
 plot_fwi_vars(fig=fig, ax=ax, fig_path=fig_p, domain_lims=d_lims, var=var,
                var_dict=fwi_fields, lon=lon, lat=lat, top_label=label_name,
                colorbar_lims=cb_lims, colorbar_delta=delta_c)
