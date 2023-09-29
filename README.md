@@ -61,5 +61,5 @@ Map of the FWI mean without masking.
 fwi_mean.png
 ```
 Map of the FWI mean with masking.
-<img src="https://github.com/nunomrm/fwi-wrfout/blob/main/output/plots/fwi_mean_mask.png">
+<img src="https://github.com/nunomrm/fwi-wrfout/blob/main/output/plots/fwi_mean.png">
 
