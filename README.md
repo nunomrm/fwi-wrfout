@@ -47,7 +47,7 @@ plots_fwi.py
 ```
 Usage:
 1. Go to ```examples/```
-2. Run ```python generate_fwi_nc.py```
+2. Run ```python plots_fwi.py```
 
 Description: Creates three simple map plots with Matplotlib and Cartopy. Applies masking outside Portugal's Vila Real, Bragança and Guarda districts. These plots are saved in the ```PNG``` format in ````output/plots/```. Below we see two example plots.
 
