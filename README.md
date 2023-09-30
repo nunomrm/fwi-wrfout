@@ -1,8 +1,8 @@
 # fwi-wrfout
 
-fwi-wrfout is a utility library that performs calculations of the Fire Weather Index (FWI), from the Canadian Forest Fire Weather Index (FWI) System (more info about FWI: https://cwfis.cfs.nrcan.gc.ca/background/summary/fwi), among other related operations. The main goal of this utility is to convert wrfout files into output [NetCDF](https://www.unidata.ucar.edu/software/netcdf/) files containing the FWI index and its sub-indices (FFMC, DMC, DC, BUI, ISI). The source code for the FWI calculation is based on the [pyfwi project](https://code.google.com/archive/p/pyfwi/). 
+fwi-wrfout is a utility library that performs calculations of the [Fire Weather Index](https://cwfis.cfs.nrcan.gc.ca/background/summary/fwi) (FWI), among related operations. The main goal of this utility is to convert wrfout files into output [NetCDF](https://www.unidata.ucar.edu/software/netcdf/) files containing the FWI index and its sub-indices (FFMC, DMC, DC, BUI, ISI). The source code for the FWI calculation is based on the [pyfwi project](https://code.google.com/archive/p/pyfwi/). 
 
-The functions to compute FWI (```fwi_functions.py```) use the same calculations as the original *pyfwi* FWI functions. However, they were adapted for calculations in numpy arrays, which is much more efficient than calculation of individual numbers, as it was originally designed in *pyfwi*. This makes a significant difference in terms of efficiency when using data-heavy ```(LON,LAT,XTIME)``` numpy arrays, which is often the case of *wrfout* files.
+The functions to compute FWI (```fwi_functions.py```) use the same calculations as the original *pyfwi* FWI functions. However, they were adapted for calculations in numpy arrays, which is much more efficient than calculation of individual numbers, as it was originally designed in *pyfwi*. This makes a significant difference in terms of efficiency when using data-heavy ```(LON,LAT,XTIME)``` numpy arrays, which is often the case of *wrfout* files (wrfout files are NetCDF output files from the (WRF)[https://www.mmm.ucar.edu/models/wrf] model).
 
 fwi-wrfout is distributed under the 3-Clause BSD License (see the LICENSE.txt file).
 
