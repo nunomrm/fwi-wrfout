@@ -51,15 +51,12 @@ Usage:
 
 Description: Creates three simple map plots with Matplotlib and Cartopy. Applies masking outside Portugal's Vila Real, Bragança and Guarda districts. These plots are saved in the ```PNG``` format in ````output/plots/```. Below we see two example plots.
 
-```
-fwi_mean_nomask.png
-```
-Map of the FWI mean without masking.
-<img src="https://github.com/nunomrm/fwi-wrfout/blob/main/output/plots/fwi_mean_nomask.png" width="200"/>
 
-```
-fwi_mean.png
-```
-Map of the FWI mean with masking.
-<img src="https://github.com/nunomrm/fwi-wrfout/blob/main/output/plots/fwi_mean.png" width="200"/>
+Map of the FWI mean without masking (```fwi_mean_nomask.png```):
+
+<img src="https://github.com/nunomrm/fwi-wrfout/blob/main/output/plots/fwi_mean_nomask.png" width="350"/>
+
+Map of the FWI mean with masking (```fwi_mean.png```):
+
+<img src="https://github.com/nunomrm/fwi-wrfout/blob/main/output/plots/fwi_mean.png" width="350"/>
 
