@@ -37,7 +37,9 @@ Usage:
 2. Run ```python generate_fwi_nc.py```
 
 Input: ```data/wrfout_files/wrfout_test.nc```
+
 Output: ```output/nc_files/fwi_test.nc```
+
 Description: Computes and generates a NetCDF FWI file with the same time, lon, lat format as the wrfout. Uses an ```xarray``` dataset to open the wrfout and extract its climate/weather information. For very large wrfouts (e.g. >8GB), using ```xarray.open_dataset``` for data extraction made the runtime decrease dramatically, due to parallelization routines with ```dask``` (```xarray``` dependency), compared to using ```netCDF4.Dataset```. In the utilities folder (```utils/```) has all tools for the computation of FWI. The ```compute_fwi``` function is the allows for computation of FWI, and which calls ```fwi_functions``` (which was adapted from the *pyfwi* project) and makes calculation of FWI with numpy arrays. Lastly, a NetCDF file is created, storing FWI and its' sub-indices.
 
 ## ```plots_fwi.py```
@@ -46,7 +48,6 @@ Usage:
 2. Run ```python plots_fwi.py```
 
 Description: Creates three simple map plots with Matplotlib and Cartopy. Applies masking outside Portugal's Vila Real, Bragança and Guarda districts. These plots are saved in the ```PNG``` format in ````output/plots/```. Below we see two example plots.
-
 
 Map of the FWI mean without masking (```fwi_mean_nomask.png```):
 
