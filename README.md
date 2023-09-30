@@ -39,9 +39,6 @@ The functions present in ```utils/main_utils.py``` contain the core utilities of
 * ```make_map```: creates the figure and draws the map with cartopy;
 * ```plot_fwi_vars```: plots FWI variables, and currently adapted for FWI and n_days of FWI (in terms of custom colormaps and labels), not yet for FWI sub-indices.
 
-`````
-
-
 # Run examples
 ## ```generate_fwi_nc.py```
 Usage:
