@@ -17,9 +17,9 @@ fname_out = 'fwi_test.nc'
 ######################################
 
 import sys, os
-sys.path.append('../utils/') # allowing custom module imports from the utils folder
+sys.path.append('../utils/') # allowing module imports from the utils folder
 from fwi_functions import *
-from custom_functions import *
+from main_utils import *
 import fwi_functions
 import numpy as np
 import netCDF4 as nc

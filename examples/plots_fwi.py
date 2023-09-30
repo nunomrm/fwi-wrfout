@@ -19,8 +19,8 @@ plot_name4 = 'ndays_extreme.png'
 
 
 import sys
-sys.path.append('../utils/') # allowing custom module imports from the utils folder
-from custom_functions import *
+sys.path.append('../utils/') # allowing module imports from the utils folder
+from main_utils import *
 import numpy as np
 import xarray as xr
 import geopandas as gpd
@@ -51,7 +51,7 @@ fwi = np.array(ds['FWI'])
 # creating mask of study region
 ######################################
 
-shapefile = gpd.read_file('../data/extras/distritos.shp')
+shapefile = gpd.read_file('../data/shapefiles/distritos.shp')
 # Three districts comprising part of the "Interior Norte" region of the
 # country are selected
 region = ['Bragança','Vila Real','Guarda']

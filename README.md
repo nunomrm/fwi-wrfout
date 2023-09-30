@@ -30,6 +30,18 @@ Install required Python modules:
 pip install -r requirements.txt
 ```
 
+# Utilities description
+The functions present in ```utils/main_utils.py``` contain the core utilities of fwi-wrfout. These utilities are listed and described below:
+* ```fwi_idx```: filters the original time array indices into indices for calculating the FWI;
+* ```extract_climate_vars```: imports the variables necessary to calculate the FWI and performs some calculations (e.g., obtain relative humidity, obtain hourly precipitation) and extracts a dictionary data structure with the attributes ```t2```, ```wind```,```rain_cumulative```, ```wind```, ```rh``` (for all time instants), ```t2_fwi```, ```wind_fwi```, ```rain_fwi```, ```rh_fwi``` (for FWI indices);
+* ````compute_fwi```: allows for computation of FWI by calling ```fwi_functions``` (adapted from the *pyfwi* project to calculate FWI with numpy arrays), and attributes initial values of FWI sub-indices dependent on previous day values (FFMC, DMC and DC);
+* ```calc_rh```: calculates relative humidity from pressure (```psfc```), the ratio of saturation mixture (```q2```), and temperature (```t2```);
+* ```make_map```: creates the figure and draws the map with cartopy;
+* ```plot_fwi_vars```: plots FWI variables, and currently adapted for FWI and n_days of FWI (in terms of custom colormaps and labels), not yet for FWI sub-indices.
+
+`````
+
+
 # Run examples
 ## ```generate_fwi_nc.py```
 Usage:
@@ -47,7 +59,7 @@ Usage:
 1. Go to ```examples/```
 2. Run ```python plots_fwi.py```
 
-Description: Creates three simple map plots with Matplotlib and Cartopy. Applies masking outside Portugal's Vila Real, Bragança and Guarda districts. These plots are saved in the ```PNG``` format in ````output/plots/```. Below we see two example plots.
+Description: Creates three simple map plots with Matplotlib and Cartopy. Applies masking outside Portugal's Vila Real, Bragança and Guarda districts. These plots are saved in the ```PNG``` format in ```output/plots/```. Below we see two example plots.
 
 Map of the FWI mean without masking (```fwi_mean_nomask.png```):
 

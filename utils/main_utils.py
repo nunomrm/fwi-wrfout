@@ -1,9 +1,4 @@
 # -*- coding: utf-8 -*-
-"""
-Created on Sun Aug 27 17:34:46 2023
-
-@author: monte
-"""
 
 def make_map(proj,fnt_size,fig_size):
     '''
