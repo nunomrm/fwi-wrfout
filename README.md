@@ -22,15 +22,8 @@ Tests were performed with these python modules:
 # Release Notes
 
 ## Catalog of versions
-* v1.0 (30/09/2023)
-* v1.1 (24/06/2024)
-
-## Change log in v1.1:
-- FWI calculation imprecisions fixed when observed that (some discussion and extensive validations were made, where DC and DMC were not behaving as expected and that was due to the conditionals being defined all together before the computation of those indexes, instead of showing up during it), changed in `fwi_functions.py`
-- narrowing the months of calculation from April to October (it's more adapted to Mediterranean climates as FWI should initialize from "dry" but wet and reasonale cold weather conditions; and calculating it in Autumn and Winter is almost certainly pointless to do)
-- changed name of `examples/` directory to `scripts/`
-- updated some documentation in README.md
-- added `plots_timeseries.py` which plots timeseries per region (spatial mean per timestep), but it's not integrated into `plots_fwi.nc` because it's not efficient enough
+* [v1.0](https://github.com/nunomrm/fwi-wrfout/tree/v1.0) (30/09/2023) [Deprecated]
+* v1.1 (24/06/2024) [Current]
 
 ## Potential future improvements and enhancements until version 2.0:
 - each of the functions in ```main_utils.py``` and in ```fwi_fuctions.py``` in their own individual files inside `utils/`
