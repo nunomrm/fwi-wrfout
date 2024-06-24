@@ -23,7 +23,7 @@ Tests were performed with these python modules:
 
 ## Catalog of versions
 * [v1.0](https://github.com/nunomrm/fwi-wrfout/tree/v1.0) (30/09/2023) [Deprecated]
-* v1.1 (24/06/2024) [Current]
+* v1.1 (24/06/2024) [Current: read more in https://github.com/nunomrm/fwi-wrfout/releases/tag/v1.1]
 
 ## Potential future improvements and enhancements until version 2.0:
 - each of the functions in ```main_utils.py``` and in ```fwi_fuctions.py``` in their own individual files inside `utils/`
