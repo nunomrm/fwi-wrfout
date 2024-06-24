@@ -1,6 +1,6 @@
 # fwi-wrfout
 
-fwi-wrfout (version 1.0) is a utility library that performs calculations of the [Fire Weather Index](https://cwfis.cfs.nrcan.gc.ca/background/summary/fwi) (FWI), among related operations. The main goal of this utility is to convert *wrfout* files (output files from the [WRF](https://www.mmm.ucar.edu/models/wrf) atmospheric model) into output [NetCDF](https://www.unidata.ucar.edu/software/netcdf/) files containing the FWI index and its sub-indices (FFMC, DMC, DC, BUI, ISI). The source code for the FWI calculation is based on the [pyfwi project](https://code.google.com/archive/p/pyfwi/). 
+fwi-wrfout (version 1.1) is a utility library that performs calculations of the [Fire Weather Index](https://cwfis.cfs.nrcan.gc.ca/background/summary/fwi) (FWI), among related operations. The main goal of this utility is to convert *wrfout* files (output files from the [WRF](https://www.mmm.ucar.edu/models/wrf) atmospheric model) into output [NetCDF](https://www.unidata.ucar.edu/software/netcdf/) files containing the FWI index and its sub-indices (FFMC, DMC, DC, BUI, ISI). The source code for the FWI calculation is based on the [pyfwi project](https://code.google.com/archive/p/pyfwi/). 
 
 The functions to compute FWI (```fwi_functions.py```) use the same calculations as the original *pyfwi* FWI functions. However, they were adapted for calculations in numpy arrays instead of individual numbers, as it was originally designed in *pyfwi*. This makes a significant difference in terms of efficiency when using data-heavy ```(LON,LAT,XTIME)``` numpy arrays, which is often the case of *wrfout* files (in the original version several for-loops would have to be performed).
 
@@ -18,6 +18,27 @@ Tests were performed with these python modules:
 * xarray: 2023.4.2 
 * cartopy: 0.21.1 
 * shapely: 2.0.1 
+
+# Release Notes
+
+## Catalog of versions
+* v1.0 (30/09/2023)
+* v1.1 (24/06/2024)
+
+## Change log in v1.1:
+- FWI calculation imprecisions fixed when observed that (some discussion and extensive validations were made, where DC and DMC were not behaving as expected and that was due to the conditionals being defined all together before the computation of those indexes, instead of showing up during it), changed in `fwi_functions.py`
+- narrowing the months of calculation from April to October (it's more adapted to Mediterranean climates as FWI should initialize from "dry" but wet and reasonale cold weather conditions; and calculating it in Autumn and Winter is almost certainly pointless to do)
+- changed name of `examples/` directory to `scripts/`
+- updated some documentation in README.md
+- added `plots_timeseries.py` which plots timeseries per region (spatial mean per timestep), but it's not integrated into `plots_fwi.nc` because it's not efficient enough
+
+## Potential future improvements and enhancements until version 2.0:
+- each of the functions in ```main_utils.py``` and in ```fwi_fuctions.py``` in their own individual files inside `utils/`
+- adapt the chunk ``XTIME` size in the `xr.open_dataset` line of `generate_fwi_nc.py` depending on file size (e.g., very large wrfout files of ~8 GB need 20 chunks in order to )
+- there's a few Python library incompatibilities with Python 3.11 (to fix in order to have a more generalizable and robust product)
+- more generalizable initialization approach for the computing of FWI (instead of narrowing down months specific months, as described in the summary of changes made in v0.2), such as looking for the best day (in terms of weather conditions and time of the year) to initialize FWI automatically, depending on geographic location
+- more and better documentation
+- major refactorization
 
 # Setting up
 

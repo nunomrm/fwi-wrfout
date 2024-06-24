@@ -17,10 +17,10 @@ fname_out = 'fwi_test.nc'
 ######################################
 
 import sys, os
-sys.path.append('../utils/') # allowing module imports from the utils folder
+sys.path.append('../utils') # allowing module imports from the utils folder
+import fwi_functions
 from fwi_functions import *
 from main_utils import *
-import fwi_functions
 import numpy as np
 import netCDF4 as nc
 import xarray as xr
@@ -30,7 +30,7 @@ import xarray as xr
 ######################################
 
 # open dataset with xarray
-ds = xr.open_dataset(wrfout_dir+fname, decode_times=False).chunk({'XTIME':6})
+ds = xr.open_dataset(wrfout_dir+fname, decode_times=False).chunk({'XTIME':20})
 
 # extract latitude and longitude
 lat = np.array(ds['XLAT'])

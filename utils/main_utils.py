@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 
+import numba as nb
+
 def make_map(proj,fnt_size,fig_size):
     '''
     Creates a figure with matplotlib and initializes the map plot with cartopy 
@@ -38,7 +40,7 @@ def make_map(proj,fnt_size,fig_size):
 def fwi_idx(t):
     '''
     Extracts the time indices that match with the FWI calculation times (at 
-    12:00, local time), and the new time array
+    12:00, between Apr-Oct), and the new time array
 
     Parameters
     ----------
@@ -58,8 +60,8 @@ def fwi_idx(t):
     i_t_fwi = []
     t_fwi = np.array([])
     for i in range(N_t):
-        hr = t[i].hour
-        if hr==12:
+        mm, hr = [t[i].month, t[i].hour]
+        if mm>=4 and mm<=10 and hr==12:
             i_t_fwi.append(i)
             t_fwi = np.append(t_fwi, t[i])
     return i_t_fwi, t_fwi
@@ -116,11 +118,21 @@ def extract_climate_vars(ds, t, **kwargs):
         climate_vars['rh_fwi'] = climate_vars['rh'][i_fwi,:,:]
         climate_vars['wind_fwi'] = climate_vars['wind'][i_fwi,:,:]
         rain_n = xr.zeros_like(climate_vars['t2_fwi'])
-        for i in range(len(i_fwi)):
-            if i > 0 and t[i_fwi[i]].year == t[i_fwi[i-1]].year:
-                rain_n[i,:,:] = rain[i_fwi[i],:,:] - rain[i_fwi[i-1]+1,:,:]
+        for i in range(1,len(i_fwi)):
+            if t[i_fwi[i]].year == t[i_fwi[i-1]].year:
+                rain_n[i,:,:] = rain[i_fwi[i],:,:] - rain[i_fwi[i-1],:,:]
+            else:
+                rain_n[i,:,:] = 0
         climate_vars['rain_fwi'] = rain_n
-    
+        # print('coomputing rain...')
+        # @nb.njit(parallel=True)
+        # def compute_rain_n(i_fwi, t, rain, rain_n):
+        #     for i in nb.prange(1, len(i_fwi)):
+        #         if t[i_fwi[i]].year == t[i_fwi[i-1]].year:
+        #             rain_n[i,:,:] = rain[i_fwi[i],:,:] - rain[i_fwi[i-1]+1,:,:]
+        # climate_vars['rain_fwi'] = compute_rain_n(i_fwi, t, rain, rain_n)
+        # print('done')
+        
     return climate_vars
 
 def calc_rh(p, q, t):
@@ -224,9 +236,10 @@ def compute_fwi(t, i_fwi, Nx, Ny, lat, climate_vars, ffmc_0, dmc_0, dc_0, fwi_fu
                                       np.zeros((Nt,Nx,Ny)),
                                       np.zeros((Nt,Nx,Ny))]
     y_prev = t[i_fwi][0].year 
+    mm=0 # to delete
     for i, idx in enumerate(i_fwi):
-        mm = t[idx].month
         y = t[idx].year
+        mm = t[idx].month
         if i == 0 or y!=y_prev:
             y_prev = t[idx].year   
             dc_prev = dc_0 * np.ones((Nx,Ny))

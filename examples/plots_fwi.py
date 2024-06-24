@@ -47,6 +47,8 @@ t = ds['XTIME']
 Nt = len(t)
 fwi = np.array(ds['FWI'])
 
+ds.close()
+
 ######################################
 # creating mask of study region
 ######################################
