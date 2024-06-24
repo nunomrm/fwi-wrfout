@@ -56,7 +56,7 @@ The functions present in ```utils/main_utils.py``` contain the core utilities of
 # Run examples
 ## ```generate_fwi_nc.py```
 Usage:
-1. Go to ```examples/```
+1. Go to ```scripts/```
 2. Run ```python generate_fwi_nc.py```
 
 Input: ```data/wrfout_files/wrfout_test.nc```
@@ -67,7 +67,7 @@ Description: Computes and generates a NetCDF FWI file with the same time, lon, l
 
 ## ```plots_fwi.py```
 Usage:
-1. Go to ```examples/```
+1. Go to ```scripts/```
 2. Run ```python plots_fwi.py```
 
 Description: Creates three simple map plots with Matplotlib and Cartopy. Applies masking outside Portugal's Vila Real, Bragança and Guarda districts. These plots are saved in the ```PNG``` format in ```output/plots/```. Below we see two example plots.
