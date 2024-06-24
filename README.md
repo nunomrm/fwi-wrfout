@@ -27,7 +27,7 @@ Tests were performed with these python modules:
 
 ## Potential future improvements and enhancements until version 2.0
 - each of the functions in ```main_utils.py``` and in ```fwi_fuctions.py``` in their own individual files inside `utils/`
-- adapt the chunk ``XTIME` size in the `xr.open_dataset` line of `generate_fwi_nc.py` depending on file size (e.g., very large wrfout files of ~8 GB need 20 chunks in order to )
+- adapt the chunk `XTIME` size in the `xr.open_dataset` line of `generate_fwi_nc.py` depending on file size (e.g., very large wrfout files of ~8 GB need 20 chunks in order to )
 - there's a few Python library incompatibilities with Python 3.11 (to fix in order to have a more generalizable and robust product)
 - more generalizable initialization approach for the computing of FWI (instead of narrowing down months specific months, as described in the summary of changes made in v0.2), such as looking for the best day (in terms of weather conditions and time of the year) to initialize FWI automatically, depending on geographic location
 - more and better documentation
